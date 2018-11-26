@@ -510,6 +510,15 @@ RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
 
 RUN php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 
+###########################################################################
+# Nano:
+###########################################################################
+
+USER root
+
+RUN apt-get update -yqq \
+    && apt-get -yqq install nano
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
