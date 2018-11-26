@@ -1,0 +1,72 @@
+server {
+
+    listen 80;
+    listen [::]:80;
+
+    server_name api.app.dev.schoolcontrol.com;
+    root /var/www/schoolcontrol/public;
+    index index.php index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location /drive {
+        try_files $uri $uri/ /drive.php$is_args$args;
+    }
+
+    location /security {
+        try_files $uri $uri/ /security.php$is_args$args;
+    }
+
+    location /invoicing {
+         try_files $uri $uri/ /invoicing.php$is_args$args;
+    }
+
+    location /cms {
+         try_files $uri $uri/ /cms.php$is_args$args;
+    }	
+
+    location /base {
+         try_files $uri $uri/ /base.php$is_args$args;
+    }
+
+    location /parents {
+         try_files $uri $uri/ /parents.php$is_args$args;
+    }
+
+    location /payments {
+         try_files $uri $uri/ /payments.php$is_args$args;
+    }
+
+    location /ecommerce {
+         try_files $uri $uri/ /ecommerce.php$is_args$args;
+    }
+
+    location ~ \.php$ {
+        try_files $uri /index.php =404;
+        fastcgi_pass php-upstream;
+        fastcgi_index index.php;
+        fastcgi_buffers 256 16k;
+        fastcgi_buffer_size 128k;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        #fixes timeouts
+        fastcgi_read_timeout 1200;
+        include fastcgi_params;
+        proxy_read_timeout 300;
+        fastcgi_param http_client_id $http_client_id;
+        proxy_pass_header http_client_id;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/letsencrypt/;
+        log_not_found off;
+    }
+
+    error_log /var/log/nginx/schoolcontrol_error.log;
+    access_log /var/log/nginx/schoolcontrol_access.log;
+}

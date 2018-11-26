@@ -421,6 +421,9 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
         && if [ ${INSTALL_NPM_VUE_CLI} = true ]; then \
         npm install -g @vue/cli \
         ;fi \
+	&& if [ ${INSTALL_NPM_VUE_CLI} = true ]; then \
+        npm install -g quasar-cli \
+        ;fi \
 ;fi
 
 # Wouldn't execute when added to the RUN statement in the above block
@@ -802,6 +805,15 @@ RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
 ###########################################################################
 
 RUN php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
+
+###########################################################################
+# Nano:
+###########################################################################
+
+USER root
+
+RUN apt-get update -yqq \
+    && apt-get -yqq install nano
 
 #
 #--------------------------------------------------------------------------
