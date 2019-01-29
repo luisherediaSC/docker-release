@@ -422,7 +422,7 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
         npm install -g @vue/cli \
         ;fi \
 	&& if [ ${INSTALL_NPM_VUE_CLI} = true ]; then \
-        npm install -g quasar-cli && npm install -g vuepress \
+        npm install -g quasar-cli@latest && npm install -g vuepress \
         ;fi \
 ;fi
 
